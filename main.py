@@ -2,25 +2,26 @@ from telegram import (ReplyKeyboardMarkup, ReplyKeyboardRemove, Update,
                       InlineKeyboardButton, InlineKeyboardMarkup)
 from telegram.ext import (Application, MessageHandler, CommandHandler, filters, ConversationHandler,
                           CallbackQueryHandler, ContextTypes)
+
+## Where token id is stored
 from credentials import TOKEN
 from constants import LANGUAGE_TO_CODE
 from deep_translator import GoogleTranslator
 
-# global var
+# init default global variable
 SRC, TARGET = 'english', 'chinese'
 
 # Define states
 SRC_TYPE, TARGET_TYPE = range(2)
 
+
 def default_keyboard() -> ReplyKeyboardMarkup:
     # Define custom keyboard buttons
     keyboard = [
-        ['/help', '/summary', '/configure'],    # First row of buttons
+        ['/help', '/summary', '/configure'],  # First row of buttons
     ]
-    
     # Create a ReplyKeyboardMarkup object
     reply_markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True, resize_keyboard=True)
-
     return reply_markup
 
 
@@ -37,7 +38,6 @@ async def source_type(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
         f'What language do you want to translate to?',
         parse_mode='HTML'
     )
-
     # Define inline buttons for languages
     keyboard = [[InlineKeyboardButton(key, callback_data=key)] for key in LANGUAGE_TO_CODE.keys()]
     reply_markup = InlineKeyboardMarkup(keyboard)
@@ -70,7 +70,6 @@ async def summary_command(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
                     f"<b>Source language:</b> {SRC}\n"
                     f"<b>Target language:</b> {TARGET}\n"
                     f"<b>Happy Translating!</b>")
-    
     chat_id = update.effective_chat.id
     await context.bot.send_message(chat_id=chat_id, text=summary_text, parse_mode='HTML', reply_markup=default_keyboard())
 
@@ -149,7 +148,6 @@ def main() -> None:
 
     application.add_handler(conv_handler)
 
-    # Handle the case when a user sends /start but they're not in a conversation
     application.add_handler(CommandHandler('start', start_command))
     application.add_handler(CommandHandler('help', help_command))
     application.add_handler(CommandHandler('summary', summary_command))
