@@ -14,7 +14,7 @@ This bot translates messages into a desired language. It allows you to configure
    - Launch the bot from the command line.
    - The bot will be ready to receive messages and translate them.
    - Use `/help` to view instructions.
-   - 
+     
 3. **Configure Languages**:
    - Use the `/configure` command to set your desired source and target languages.
    - The bot will prompt you to enter the language codes.
@@ -43,8 +43,19 @@ This bot translates messages into a desired language. It allows you to configure
    ```bash
    pip install -r requirements.txt
    ```
+   
+4. Create a credentials.py file:
+   ```bash
+   nano credentials.py
+   ```
+   And within the file, add:
+   ```bash
+   TOKEN = "<YOUR-API-TOKEN-STRING>"
+   ```
+   You can retrieve your custom API Token from [@BotFather](https://t.me/botfather)
+   
 
-4. Run the bot:
+5. Run the bot:
    ```bash
    python main.py
    ```
